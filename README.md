@@ -98,7 +98,42 @@ Arquivos de trabalho esperados/gerados:
 - Verifique nomes de variáveis `lat`/`lon`/`variavel` no seu NetCDF; use os alternativos `latitude`/`longitude` se necessário.
 - Ajuste caminhos de include/lib (`-I/-L`) e `LD_LIBRARY_PATH` para sua instalação NetCDF.
 
-### Licença
-Defina a licença do projeto conforme necessário (por exemplo, MIT/BSD/GPL). Caso não especificada, considera-se “todos os direitos reservados” por padrão.
+## Call Tree Diagram
+
+Mermaid diagram of the main program and module calls:
+
+```mermaid
+graph TD
+  A[program extract_prec_with_coords] --> B[read_polygon_from_file]\nmod_polygon_point_check
+  A --> C[process_netCDF_in]\nmod_netcdf
+  C --> C1[nf90_open/inq/get_var...]\nnetCDF-Fortran
+  C --> C2[handle_err]\n(mod_netcdf)
+  A --> D[check_inside]\nmod_polygon_point_check
+  D --> D1[point_in_polygon]\n(ray casting)
+  A --> E[write_csv]\nmod_out
+  A --> F[process_netCDF_out]\nmod_netcdf
+  F --> F1[nf90_create/def_dim/def_var/copy_att/enddef/put_var/close]\nnetCDF-Fortran
+  F --> F2[handle_err]\n(mod_netcdf)
+  A --> G[write_script]\nmod_out
+  G --> G1[execute_command_line('gnuplot ...')]
+```
+
+### Textual Outline
+- program `extract_prec_with_coords`
+  - `read_polygon_from_file` (in `mod_polygon_point_check`)
+  - `process_netCDF_in` (in `mod_netcdf`)
+    - netCDF calls: `nf90_open`, `nf90_inq_varid`, `nf90_inquire_variable`, `nf90_inquire_dimension`, `nf90_get_var`
+    - `handle_err` (on error)
+  - `check_inside` (in `mod_polygon_point_check`)
+    - `point_in_polygon` (ray casting)
+  - `write_csv` (in `mod_out`)
+  - `process_netCDF_out` (in `mod_netcdf`)
+    - netCDF calls: `nf90_create`, `nf90_def_dim`, `nf90_def_var`, `nf90_copy_att`, `nf90_enddef`, `nf90_put_var`, `nf90_close`
+    - `handle_err` (on error)
+  - `write_script` (in `mod_out`)
+    - `execute_command_line('gnuplot ...')`
+
+## Licença
+Este projeto está sob licença CC-GPL 3.0
 
 
