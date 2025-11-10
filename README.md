@@ -104,18 +104,18 @@ Mermaid diagram of the main program and module calls:
 
 ```mermaid
 graph TD
-  A[program extract_prec_with_coords] --> B["read_polygon_from_file\nmod_polygon_point_check"]
-  A --> C["process_netCDF_in\nmod_netcdf"]
-  C --> C1["nf90_open/inq/get_var...\nnetCDF-Fortran"]
-  C --> C2["handle_err\n(mod_netcdf)"]
-  A --> D["check_inside\nmod_polygon_point_check"]
-  D --> D1["point_in_polygon\n(ray casting)"]
-  A --> E["write_csv\nmod_out"]
-  A --> F["process_netCDF_out\nmod_netcdf"]
-  F --> F1["nf90_create/def_dim/def_var/copy_att/enddef/put_var/close\nnetCDF-Fortran"]
-  F --> F2["handle_err\n(mod_netcdf)"]
-  A --> G["write_script\nmod_out"]
-  G --> G1["execute_command_line('gnuplot ...')"]
+  A[program extract_prec_with_coords] --> B["read_polygon_from_file<br>mod_polygon_point_check"]
+  A --> C["process_netCDF_in<br>mod_netcdf"]
+  C --> C1["nf90_open/inq/get_var...<br>netCDF-Fortran"]
+  C --> C2["handle_err<br>(mod_netcdf)"]
+  A --> D["check_inside<br>mod_polygon_point_check"]
+  D --> D1["point_in_polygon<br>(ray casting)"]
+  A --> E["write_csv<br>mod_out"]
+  A --> F["process_netCDF_out<br>mod_netcdf"]
+  F --> F1["nf90_create/def_dim/def_var/copy_att/enddef/put_var/close<br>netCDF-Fortran"]
+  F --> F2["handle_err<br>(mod_netcdf)"]
+  A --> G["write_script<br>mod_out"]
+  G --> G1["execute_command_line<br>('gnuplot ...')"]
 ```
 
 ### Textual Outline
